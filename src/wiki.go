@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"net/http"
+	"log"
 )
 
 type Page struct {
@@ -19,14 +21,14 @@ type Page struct {
 // 값을 전달받을 때 하드카피를 할지 포인터를 받을지를 결정함.
 func (p *Page) save() error {
 	// 이 함수는 데이터를 저장하는 용도로 사용됨.
-	filename := p.Title + ".txt"
+	filename := "../data" + p.Title + ".txt"
 	// 함수에 command + 좌클릭 하면 함수 모양 나옴. 0600 은 rwx 리눅스 권한임.
 	return ioutil.WriteFile(filename, p.Body, 0600)
 }
 
 // 에러처리에 대한 부분은 아래와 같이 한다. 대체로 error를 같이 리턴해버리는 듯.
 func loadPage(title string) (*Page, error) {
-	filename := title + ".txt"
+	filename := "../data" + title + ".txt"
 	body, error := ioutil.ReadFile(filename)
 	if error != nil {
 		return nil, error
@@ -35,9 +37,15 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
+func viewHandler(w http.ResponseWriter, r *http.Request) {
+	// 관련 내용은 examples/server.go 에 존재한다.
+	// 아래의 len("/view/") 를 통해 /view/ 를 날려버릴 수 있다.
+	title := r.URL.Path[len("/view/"):]
+	p, _ := loadPage(title)
+	fmt.Fprintf(w, "<body><h1>%s</h1><p>%s</p></body>", p.Title, p.Body)
+}
+
 func main() {
-	p1 := &Page{Title: "TestPage", Body: []byte("hello World")}
-	p1.save()
-	p2, _ := loadPage("TestPage")
-	fmt.Println(string(p2.Body))
+	http.HandleFunc("/view/", viewHandler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
