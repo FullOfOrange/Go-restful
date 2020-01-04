@@ -34,8 +34,15 @@ func loadPage(title string) (*Page, error) {
 }
 
 func renderTemplate(w http.ResponseWriter, routes string, p *Page) {
-	t, _ := template.ParseFiles("../templates/" + routes + ".html")
-	t.Execute(w, p)
+	t, err := template.ParseFiles("../templates/" + routes + ".html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = t.Execute(w, p)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func viewHandler(w http.ResponseWriter, r *http.Request) {
