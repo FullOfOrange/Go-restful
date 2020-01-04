@@ -9,10 +9,6 @@ import (
 
 type Page struct {
 	Title string
-	// []byte 는 'a byte slice' 를 의미한다.
-	// slice 는 Array 타입 위에서 추상화된 타입이며 뭔가가 더 있다.
-	//
-	// 자세한 내용은 https://blog.golang.org/go-slices-usage-and-internals
 	Body []byte
 }
 
