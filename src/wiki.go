@@ -5,14 +5,27 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"regexp"
+	"errors"
 )
-
+// Global 에서 쓰이는 Must들은 Runtime이나 CompileTime에 조건에 맞지 않으면 panic을 일으키는 것들임.
 // template 들을 캐싱하는 것이 좋음. 어차피 쓰일거 계속해서 io를 하지말고 메모리에 올려두자.
 var templates = template.Must(template.ParseFiles("../templates/edit.html", "../templates/view.html"))
+// validation 을 저장하는 path를 정의.
+var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 
 type Page struct {
 	Title string
 	Body  []byte
+}
+
+func getTitle(w http.ResponseWriter, r *http.Request) (string, error){
+	m := validPath.FindStringSubmatch(r.URL.Path)
+	if m == nil {
+		http.NotFound(w,r)
+		return "", errors.New("Invaild Page Title")
+	}
+	return m[2], nil
 }
 
 // Reciever는 특정 structure 의 메소드라는 뜻임.
@@ -46,9 +59,12 @@ func renderTemplate(w http.ResponseWriter, temp string, p *Page) {
 
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	// 아래의 len("/view/") 를 통해 /view/ 를 날려버릴 수 있다.
-	title := r.URL.Path[len("/view/"):]
-	p, error := loadPage(title)
-	if error != nil {
+	title, err := getTitle(w, r)
+    if err != nil {
+        return
+    }
+	p, err := loadPage(title)
+	if err != nil {
 		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
 		return
 	}
@@ -56,7 +72,10 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/edit/"):]
+	title, err := getTitle(w, r)
+    if err != nil {
+        return
+    }
 	p, err := loadPage(title)
 	if err != nil {
 		p = &Page{Title: title}
@@ -65,7 +84,10 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/save/"):]
+	title, err := getTitle(w, r)
+    if err != nil {
+        return
+    }
 	// form value가 존재하지 않을 경우도 생각해줘야할 것 같음.
 	body := r.FormValue("body")
 	// 형 변환은 []byte() 이런식으로 하는 것 같음.
