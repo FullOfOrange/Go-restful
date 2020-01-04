@@ -26,3 +26,6 @@
    
 2. [Go 언어 한국어 위키](https://github.com/golang-kr/golang-doc/wiki)
    번역된 것이 별로 없는것이 함정이다.
+
+3. [Go 기본 세팅하기](https://github.com/golang-kr/golang-doc/wiki/Go-코드를-작성하는-방법)
+   Go는 이상하다. 무조건 $GOPATH 내에 모든 것이 존재해야한다. 대체로 src내에 모든 project를 관리한다고 한다...
