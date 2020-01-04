@@ -1,16 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"io/ioutil"
-	"net/http"
 	"log"
+	"net/http"
 )
 
 type Page struct {
 	Title string
-	Body []byte
+	Body  []byte
 }
 
 // Reciever는 특정 structure 의 메소드라는 뜻임.
@@ -34,8 +33,8 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
-func renderTemplate(w http.ResponseWriter, routes string, p *Page){
-	t, _ := template.ParseFiles("../templates/"+ routes +".html")
+func renderTemplate(w http.ResponseWriter, routes string, p *Page) {
+	t, _ := template.ParseFiles("../templates/" + routes + ".html")
 	t.Execute(w, p)
 }
 
@@ -59,9 +58,18 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "edit", p)
 }
 
+func saveHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/save/"):]
+	body := r.FormValue("body")
+	// 형 변환은 []byte() 이런식으로 하는 것 같음.
+	p := &Page{Title: title, Body: []byte(body)}
+	p.save()
+	http.Redirect(w, r, "/view/"+title, http.StatusFound)
+}
+
 func main() {
 	http.HandleFunc("/view/", viewHandler)
 	http.HandleFunc("/edit/", editHandler)
-	//http.HandleFunc("/save/", saveHandler)
+	http.HandleFunc("/save/", saveHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
