@@ -7,6 +7,9 @@ import (
 	"net/http"
 )
 
+// template 들을 캐싱하는 것이 좋음. 어차피 쓰일거 계속해서 io를 하지말고 메모리에 올려두자.
+var templates = template.Must(template.ParseFiles("../templates/edit.html", "../templates/view.html"))
+
 type Page struct {
 	Title string
 	Body  []byte
@@ -33,15 +36,11 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
-func renderTemplate(w http.ResponseWriter, routes string, p *Page) {
-	t, err := template.ParseFiles("../templates/" + routes + ".html")
+func renderTemplate(w http.ResponseWriter, temp string, p *Page) {
+	err := templates.ExecuteTemplate(w, temp+".html", p)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
-	}
-	err = t.Execute(w, p)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
@@ -67,10 +66,15 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 
 func saveHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/save/"):]
+	// form value가 존재하지 않을 경우도 생각해줘야할 것 같음.
 	body := r.FormValue("body")
 	// 형 변환은 []byte() 이런식으로 하는 것 같음.
 	p := &Page{Title: title, Body: []byte(body)}
-	p.save()
+	err := p.save()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	http.Redirect(w, r, "/view/"+title, http.StatusFound)
 }
 
