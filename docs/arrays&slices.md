@@ -1,8 +1,8 @@
-## Arrays / Slices
+# Arrays / Slices
 
 Slice 는 Array의 하위타입임. 따라서 Array가 가진 성격을 다 가지고 가면서 추가적인 뭔가가 있음
 
-### Arrays
+## Arrays
 
 일반적인 언어의 배열과 동일함.
 
@@ -16,7 +16,7 @@ Slice 는 Array의 하위타입임. 따라서 Array가 가진 성격을 다 가�
    따라서 이 변수를 전달할 경우, Pointer가 아니라 배열 전체가 복사된다. 이것을 주의해야함.
    이걸 피하고 싶으면, 배열의 Pointer값을 전달해줘야한다.
 
-### Slices
+## Slices
 
 Arrays는 자기의 공간을 가지고 있지만, 배열을 늘리기에는 inflexible 하다.
 Slices 는 그것의 단점을 없애주고 배열보다 훨씬 강력하고 편리하다.
@@ -179,6 +179,6 @@ Slices 는 그것의 단점을 없애주고 배열보다 훨씬 강력하고 편
 
    
 
-#### Reference
+### Reference
 
 https://blog.golang.org/go-slices-usage-and-internals
