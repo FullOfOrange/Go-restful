@@ -4,7 +4,7 @@
 공부하면서 정리한 md들을 모아놓음. 대체로 Go 만의 특징적인 것들이 적혀있을 예정
 
 1. [Array & Slice](https://github.com/FullOfOrange/Go/blob/master/docs/arrays%26slices.md)
-
+2. [Function literals](https://github.com/FullOfOrange/Go/blob/master/docs/functionLiterals.md)
 ### Tips
 
 여기있는 설명들은 내가 익숙해지면 필요가 없어지겠지만 그래도 써놓긴 함.
