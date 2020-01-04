@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -41,7 +42,11 @@ func renderTemplate(w http.ResponseWriter, routes string, p *Page){
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	// 아래의 len("/view/") 를 통해 /view/ 를 날려버릴 수 있다.
 	title := r.URL.Path[len("/view/"):]
-	p, _ := loadPage(title)
+	p, error := loadPage(title)
+	if error != nil {
+		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
+		return
+	}
 	renderTemplate(w, "view", p)
 }
 
