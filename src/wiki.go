@@ -21,14 +21,14 @@ type Page struct {
 // 값을 전달받을 때 하드카피를 할지 포인터를 받을지를 결정함.
 func (p *Page) save() error {
 	// 이 함수는 데이터를 저장하는 용도로 사용됨.
-	filename := "../data" + p.Title + ".txt"
+	filename := "../data/" + p.Title + ".txt"
 	// 함수에 command + 좌클릭 하면 함수 모양 나옴. 0600 은 rwx 리눅스 권한임.
 	return ioutil.WriteFile(filename, p.Body, 0600)
 }
 
 // 에러처리에 대한 부분은 아래와 같이 한다. 대체로 error를 같이 리턴해버리는 듯.
 func loadPage(title string) (*Page, error) {
-	filename := "../data" + title + ".txt"
+	filename := "../data/" + title + ".txt"
 	body, error := ioutil.ReadFile(filename)
 	if error != nil {
 		return nil, error
