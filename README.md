@@ -1,5 +1,7 @@
 # Go
 
+https://github.com/eddycjy/go-gin-example 이곳의 프로젝트를 참고해서 예약 플랫폼 API를 뽑아보는 것을 목표로 둔다.
+
 ### BUILD
 ```go
 go build .
