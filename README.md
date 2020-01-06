@@ -47,4 +47,4 @@
 4. [의존성 관리](https://github.com/golang/go/wiki/PackageManagementTools)
    의존성 관리를 위한 패키지 관리툴 모음
    - [dep](https://github.com/golang/dep)
-     Go에서 공식적으로 권장하는 패키지 관리 툴임.
+     Go에서 공식적으로 권장하는 패키지 관리 도구
