@@ -39,11 +39,14 @@ go build .
    위의 명령어를 실행하면 go.mod 가 생긴다. 이 파일 내에서 각각의 의존성이 관리된다.
    만약 여기에 // indirect 라는 주석이 있으면, 다른 모듈의 디펜던시임을 의미한다.
 
-   go install을 하면 모든 go 파일을 훑으면서 의존성을 설치하고, mod 에 추가한다. (없으면 추가하고, 있으면 있는놈 버전으로 설치함.)
+   go install을 하면 모든 go 파일을 훑으면서 의존성을 설치하고, mod 에 추가한다. (없으면 추가하고, 있으면 있는놈 버전으로 설치함.) 설치는 GOPATH의 pkg 에 설치를 해서 관리를 한다. 나의 현재 GOPATH는 $HOME/go 이다.
 
    go.sum 은 각각 모듈들의 특정 버전 해쉬값이다. 이걸 비교해서 모듈이 예상치 않게 변경되는 일을 방지한다.
 
    이 외에는 모두 위의 링크를 따르자.
+
+4. [Makefile](https://sohlich.github.io/post/go_makefile/)
+   go 는 makefile을 이용해서 build나 test 코드를 쉽게 실행할 수 있다. 마치 package.json 의 script 같은 느낌..?
 
 ### Tips
 
