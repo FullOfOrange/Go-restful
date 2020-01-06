@@ -2,6 +2,9 @@
 /bin/*
 .DS_Store
 
+# Build file
+go-restful
+
 # Binaries for programs and plugins
 *.dll
 *.so
