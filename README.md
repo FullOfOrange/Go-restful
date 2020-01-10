@@ -3,11 +3,13 @@
 https://github.com/eddycjy/go-gin-example 이곳의 프로젝트를 참고해서 예약 플랫폼 API를 뽑아보는 것을 목표로 둔다.
 
 ### BUILD
+
 ```go
 go build .
 ```
 
 ### RUN
+
 ```bash
 ./go-restful
 ```
@@ -18,6 +20,10 @@ go build .
 
 1. [Array & Slice](https://github.com/FullOfOrange/Go/blob/master/docs/arrays%26slices.md)
 2. [Function literals](https://github.com/FullOfOrange/Go/blob/master/docs/functionLiterals.md)
+3. [Go routine](https://github.com/FullOfOrange/Go/blob/master/docs/goroutine.md)
+4. [Defer & Panic & Recover](https://github.com/FullOfOrange/Go/blob/master/docs/exception.md)
+5. [Go channel](https://github.com/FullOfOrange/Go/blob/master/docs/gochannel.md)
+6. [sync/atomic](<(https://github.com/FullOfOrange/Go/blob/master/docs/atomic.md)>) go routine의 원자성을 보호하기 위한 라이브러리
 
 ### Reference
 
@@ -35,13 +41,15 @@ go build .
    1.11 부터 지원하는 공식적인 Go 모듈 관리 도구이며 Go에 종속되어있다. 이것은 GOPATH와 상관없이 동작한다.
 
    1.13 부터는 기몬으로 된다는데 모르겠다. 현재 이 프로젝트는 Go modules를 사용한다.
+
    ```go
    go mod init example.com/users/projects
    ```
+
    위의 명령어를 실행하면 go.mod 가 생긴다. 이 파일 내에서 각각의 의존성이 관리된다.
    만약 여기에 // indirect 라는 주석이 있으면, 다른 모듈의 디펜던시임을 의미한다.
 
-   go install을 하면 모든 go 파일을 훑으면서 의존성을 설치하고, mod 에 추가한다. (없으면 추가하고, 있으면 있는놈 버전으로 설치함.) 설치는 GOPATH의 pkg 에 설치를 해서 관리를 한다. 나의 현재 GOPATH는 $HOME/go 이다.
+   go install을 하면 모든 go 파일을 훑으면서 의존성을 설치하고, mod 에 추가한다. (없으면 추가하고, 있으면 있는놈 버전으로 설치함.) 설치는 GOPATH의 pkg 에 설치를 해서 관리를 한다. 나의 현재 GOPATH는 \$HOME/go 이다.
 
    go.sum 은 각각 모듈들의 특정 버전 해쉬값이다. 이걸 비교해서 모듈이 예상치 않게 변경되는 일을 방지한다.
 
